@@ -1,0 +1,15 @@
+﻿<Window x:Class="Write_Erase.MVVM.Views.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Write_Erase.MVVM.Views"
+        mc:Ignorable="d"
+        DataContext="{Binding ShellViewModel, 
+                        Source={StaticResource ViewModelLocator}}"
+        Title="Пиши - Стирай" Height="450" Width="680"
+        MinWidth="680"
+        MinHeight="250">
+    <Frame NavigationUIVisibility="Hidden"
+           Content="{Binding PageSource}"/>
+</Window>
