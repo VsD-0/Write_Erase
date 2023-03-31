@@ -1,6 +1,4 @@
-﻿
-
-namespace Write_Erase
+﻿namespace Write_Erase
 {
     internal class ViewModelLocator
     {
@@ -27,7 +25,7 @@ namespace Write_Erase
 
             #region Connection
 
-            services.AddDbContext<TradeContext>(options =>
+            services.AddDbContext<StoreContext>(options =>
             {
                 var conn = Configuration.GetConnectionString("DefaultConnection");
                 options.UseMySql(conn, ServerVersion.AutoDetect(conn));

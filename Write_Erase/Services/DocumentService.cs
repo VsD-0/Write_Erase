@@ -10,7 +10,7 @@ namespace Write_Erase.Services
 {
     public static class DocumentService
     {
-        public static async Task Create(float totalCost, float discount, Point point, int orderNumber, int code)
+        public static async Task Create(decimal totalCost, decimal discount, Orderpickuppoint point, int orderNumber, int code)
         {
             PdfWriter writer = new($"Талон за {DateOnly.FromDateTime(DateTime.Now).ToString("d")}.pdf");
             PdfDocument pdf = new(writer);
@@ -109,7 +109,7 @@ namespace Write_Erase.Services
                .SetFontSize(16));
 
             table.AddCell(new Paragraph(string.Format("{0}, г. {1}, ул. {2}, д. {3}",
-                point.Index, point.Country, point.Street, point.House))
+                point.PickupPoint, point.City, point.Street, point.House))
                .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
                .SetFont(comic)
                .SetFontSize(16));

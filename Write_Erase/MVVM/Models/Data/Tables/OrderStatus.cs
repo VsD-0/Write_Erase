@@ -1,10 +1,13 @@
-﻿namespace Write_Erase;
+﻿using System;
+using System.Collections.Generic;
 
-public partial class OrderStatus
+namespace Write_Erase.MVVM.Models.Data.Tables;
+
+public partial class Orderstatus
 {
-    public int Id { get; set; }
+    public int StatusId { get; set; }
 
-    public string Status { get; set; } = null!;
+    public string StatusName { get; set; } = null!;
 
-    public virtual ICollection<Orderuser> Orderusers { get; } = new List<Orderuser>();
+    public virtual ICollection<Order> Orders { get; } = new List<Order>();
 }

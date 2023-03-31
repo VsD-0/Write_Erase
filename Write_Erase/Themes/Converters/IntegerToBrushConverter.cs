@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace Write_Erase.Themes.Converters
 {
-    class IntegerToBrushConverter : IValueConverter
+    internal class IntegerToBrushConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

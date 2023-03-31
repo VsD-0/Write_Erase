@@ -2,11 +2,11 @@
 {
     public class PointOfIssuesService
     {
-        private readonly TradeContext _context;
-        public PointOfIssuesService(TradeContext context)
+        private readonly StoreContext _context;
+        public PointOfIssuesService(StoreContext context)
         {
             _context = context;
         }
-        public async Task<List<Point>> GetPoints() => await _context.Points.AsNoTracking().ToListAsync();
+        public async Task<List<Orderpickuppoint>> GetPoints() => await _context.Orderpickuppoints.AsNoTracking().ToListAsync();
     }
 }

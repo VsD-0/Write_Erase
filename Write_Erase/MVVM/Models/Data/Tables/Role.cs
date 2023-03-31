@@ -1,4 +1,7 @@
-﻿namespace Write_Erase;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Write_Erase.MVVM.Models.Data.Tables;
 
 public partial class Role
 {

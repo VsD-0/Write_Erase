@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Write_Erase.MVVM.Models.Data.Tables;
 
-public partial class Productcategory
+public partial class Productmanufacturer
 {
-    public int CategoryId { get; set; }
+    public int ManufacturerId { get; set; }
 
-    public string Category { get; set; } = null!;
+    public string Manufacturer { get; set; } = null!;
 
     public virtual ICollection<Product> Products { get; } = new List<Product>();
 }

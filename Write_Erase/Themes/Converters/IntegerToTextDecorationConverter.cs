@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace Write_Erase.Themes.Converters
 {
-    class IntegerToTextDecorationConverter : IValueConverter
+    internal class IntegerToTextDecorationConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

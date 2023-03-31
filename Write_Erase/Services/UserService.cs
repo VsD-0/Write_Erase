@@ -1,10 +1,9 @@
-﻿
-namespace Write_Erase.Services
+﻿namespace Write_Erase.Services
 {
     public class UserService
     {
-        private readonly TradeContext _context;
-        public UserService(TradeContext context)
+        private readonly StoreContext _context;
+        public UserService(StoreContext context)
         {
             _context = context;
         }

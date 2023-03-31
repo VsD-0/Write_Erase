@@ -1,57 +1,64 @@
-﻿
-
-namespace Write_Erase.Services
+﻿namespace Write_Erase.Services
 {
     public class ProductService
     {
-        private readonly TradeContext _context;
-        public ProductService(TradeContext context)
+        private readonly StoreContext _context;
+        public ProductService(StoreContext context)
         {
             _context = context;
         }
         public async Task<List<ProductModel>> GetProducts()
         {
             List<ProductModel> products = new();
-
-            await Task.Run(async () =>
+            try
             {
-                try
+                List<Product> product = await _context.Products.ToListAsync();
+
+                List<Productname> pnames = await _context.Productnames.ToListAsync();
+                List<Productmanufacturer> pmanufactures = await _context.Productmanufacturers.ToListAsync();
+
+                foreach (var item in product)
                 {
-                    List<Product> product = await _context.Products.ToListAsync();
-
-                    List<Pname> pnames = await _context.Pnames.ToListAsync();
-                    List<Pmanufacturer> pmanufactures = await _context.Pmanufacturers.ToListAsync();
-
-                    foreach (var item in product)
+                    products.Add(new ProductModel
                     {
-                        products.Add(new ProductModel
-                        {
-                            Article = item.ProductArticleNumber,
-                            Image = item.ProductPhoto == string.Empty ? "picture.png" : item.ProductPhoto,
-                            Title = pnames.SingleOrDefault(pn => pn.PnameId == item.ProductName).ProductName,
-                            Description = item.ProductDescription,
-                            Manufacturer = pmanufactures.SingleOrDefault(pm => pm.PmanufacturerId == item.ProductManufacturer).ProductManufacturer,
-                            Price = item.ProductCost,
-                            Discount = (int)item.ProductDiscountAmount
-                        });
-                    }
+                        Article = item.ParticleNumber,
+                        Image = item.Pphoto == string.Empty ? "picture.png" : item.Pphoto,
+                        Title = pnames.SingleOrDefault(pn => pn.NameId == item.PnameId).Name,
+                        Description = item.Pdescription,
+                        Manufacturer = pmanufactures.SingleOrDefault(pm => pm.ManufacturerId == item.PmanufacturerId).Manufacturer,
+                        Price = item.Pcost,
+                        Discount = (int)item.PdiscountAmount
+                    });
                 }
-                catch (InvalidOperationException ex) { Debug.WriteLine(ex); }
-            });
+            }
+            catch (InvalidOperationException ex)
+            {
+                Debug.WriteLine(ex);
+                products.Add(new ProductModel
+                {
+                    Article = "#Article#",
+                    Image = "picture.png",
+                    Title = "#Имя?#",
+                    Description = "#Описание?#",
+                    Manufacturer = "#Производитель?#",
+                    Price = 100,
+                    Discount = 5
+                });
+            }
             return products;
         }
-        public async Task<int> AddOrder(Orderuser order)
+        public async Task<int> AddOrder(Order order)
         {
-            await _context.Orderusers.AddAsync(order);
+            await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
 
             foreach (var item in Global.ProductsBasket)
             {
-                await _context.Orderproduct.AddAsync(new Orderproduct
+                await _context.Orderproducts.AddAsync(new Orderproduct
                 {
                     OrderId = order.OrderId,
-                    ProductArticleNumber = item.Product.Article,
-                    ProductCount = item.Count
+                    ParticleNumber = item.Product.Article,
+                    Count = item.Count
                 });
                 await _context.SaveChangesAsync();
             }

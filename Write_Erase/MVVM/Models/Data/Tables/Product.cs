@@ -1,42 +1,45 @@
-﻿namespace Write_Erase;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Write_Erase.MVVM.Models.Data.Tables;
 
 public partial class Product
 {
-    public string ProductArticleNumber { get; set; } = null!;
+    public string ParticleNumber { get; set; } = null!;
 
-    public int ProductName { get; set; }
+    public int PnameId { get; set; }
 
-    public string ProductDescription { get; set; } = null!;
+    public string Pdescription { get; set; } = null!;
 
-    public int ProductCategory { get; set; }
+    public int PcategoryId { get; set; }
 
-    public string ProductPhoto { get; set; } = null!;
+    public string Pphoto { get; set; } = null!;
 
-    public int ProductManufacturer { get; set; }
+    public int PmanufacturerId { get; set; }
 
-    public float ProductCost { get; set; }
+    public decimal Pcost { get; set; }
 
-    public int? ProductMaxDiscount { get; set; }
+    public int? PmaxDiscount { get; set; }
 
-    public int ProductProvider { get; set; }
+    public decimal? PdiscountAmount { get; set; }
 
-    public sbyte? ProductDiscountAmount { get; set; }
+    public int PquantityInStock { get; set; }
 
-    public int ProductQuantityInStock { get; set; }
+    public string? Pstatus { get; set; }
 
-    public int? Unit { get; set; }
+    public int PproviderId { get; set; }
 
-    public string? ProductStatus { get; set; }
+    public int PunitId { get; set; }
 
     public virtual ICollection<Orderproduct> Orderproducts { get; } = new List<Orderproduct>();
 
-    public virtual ProductCategory ProductCategoryNavigation { get; set; } = null!;
+    public virtual Productcategory Pcategory { get; set; } = null!;
 
-    public virtual Pmanufacturer ProductManufacturerNavigation { get; set; } = null!;
+    public virtual Productmanufacturer Pmanufacturer { get; set; } = null!;
 
-    public virtual Pname ProductNameNavigation { get; set; } = null!;
+    public virtual Productname Pname { get; set; } = null!;
 
-    public virtual Provider ProductProviderNavigation { get; set; } = null!;
+    public virtual Productprovider Pprovider { get; set; } = null!;
 
-    public virtual Unit? UnitNavigation { get; set; }
+    public virtual Productunit Punit { get; set; } = null!;
 }

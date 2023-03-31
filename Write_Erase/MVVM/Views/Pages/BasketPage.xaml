@@ -39,7 +39,7 @@
                         <TextBlock>
                             <TextBlock.Text>
                                 <MultiBinding StringFormat="{}г.{0}, ул.{1}, д.{2}">
-                                    <Binding Path="Country"/>
+                                    <Binding Path="City"/>
                                     <Binding Path="Street"/>
                                     <Binding Path="House"/>
                                 </MultiBinding>

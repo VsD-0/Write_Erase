@@ -1,14 +1,17 @@
-﻿namespace Write_Erase;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Write_Erase.MVVM.Models.Data.Tables;
 
 public partial class Orderproduct
 {
     public int OrderId { get; set; }
 
-    public string ProductArticleNumber { get; set; } = null!;
+    public string ParticleNumber { get; set; } = null!;
 
-    public int? ProductCount { get; set; }
+    public int Count { get; set; }
 
-    public virtual Orderuser Order { get; set; } = null!;
+    public virtual Order Order { get; set; } = null!;
 
-    public virtual Product ProductArticleNumberNavigation { get; set; } = null!;
+    public virtual Product ParticleNumberNavigation { get; set; } = null!;
 }

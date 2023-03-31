@@ -16,9 +16,9 @@ namespace Write_Erase.MVVM.ViewModels
 
         public ObservableCollection<Basket> ProductsBasket { get; set; } = Global.ProductsBasket;
         public Basket SelectedProductBasket { get; set; }
-        public float TotalCost { get; set; }
-        public List<Point> CheckoutPoint { get; set; }
-        public Point CheckoutPointSelected { get; set; }
+        public decimal TotalCost { get; set; }
+        public List<Orderpickuppoint> CheckoutPoint { get; set; }
+        public Orderpickuppoint CheckoutPointSelected { get; set; }
         #endregion Property
 
         public BasketViewModel(PageService pageService, PointOfIssuesService pointOfIssuesService, ProductService productService)
@@ -87,13 +87,13 @@ namespace Write_Erase.MVVM.ViewModels
         {
             int code = rnd.Next(100, 999);
             Debug.WriteLine("Заказ оформлен");
-            await DocumentService.Create(TotalCost, 0, CheckoutPointSelected, await _productService.AddOrder(new Orderuser
+            await DocumentService.Create(TotalCost, 0, CheckoutPointSelected, await _productService.AddOrder(new Order
             {
-                OrderStatus = 1,
-                OrderDeliveryDate = DateOnly.FromDateTime(DateTime.Now),
-                OrderPickupPoint = DateOnly.FromDateTime(DateTime.Now.AddDays(5)),
-                PointOfIssue = CheckoutPointSelected.Id,
-                FullNameClient = FullName,
+                OrderStatusId = 1,
+                OrderDeliveryDate = DateTime.Now,
+                DateOfOrder = DateTime.Now.AddDays(5),
+                OrderPickupPointId = CheckoutPointSelected.PickupPointId,
+                FullNameUser = FullName,
                 ReceiptCode = code,
             }), code);
         }, bool () => { return CheckoutPointSelected != null && FullName != "Гость"; });
