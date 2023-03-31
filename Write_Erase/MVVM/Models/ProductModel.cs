@@ -13,6 +13,7 @@
         public string? Manufacturer { get; set; }
         public decimal Price { get; set; }
         public int Discount { get; set; }
+        public string? Unit { get; set; }
         public decimal DisplayedPrice
         {
             get { return this.Price - (this.Price / 100 * this.Discount); }

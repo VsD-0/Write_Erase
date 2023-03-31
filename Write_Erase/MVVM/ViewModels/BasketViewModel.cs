@@ -19,6 +19,9 @@ namespace Write_Erase.MVVM.ViewModels
         public decimal TotalCost { get; set; }
         public List<Orderpickuppoint> CheckoutPoint { get; set; }
         public Orderpickuppoint CheckoutPointSelected { get; set; }
+        public decimal PriceNoDiscount { get; set; }
+        public decimal Saved { get; set; }
+        public int Count { get; set; }
         #endregion Property
 
         public BasketViewModel(PageService pageService, PointOfIssuesService pointOfIssuesService, ProductService productService)
@@ -26,10 +29,7 @@ namespace Write_Erase.MVVM.ViewModels
             _pageService = pageService;
             _pointOfIssuesService = pointOfIssuesService;
             _productService = productService;
-            foreach (var product in ProductsBasket)
-            {
-                TotalCost += (product.Product.Price - (product.Product.Price / 100 * product.Product.Discount)) * product.Count;
-            }
+            ChangePrice();
             Task.Run(async () => CheckoutPoint = await _pointOfIssuesService.GetPoints());
         }
 
@@ -43,6 +43,19 @@ namespace Write_Erase.MVVM.ViewModels
             Global.CurrentUser = null;
             _pageService.ChangePage(new SingInPage());
         });
+
+        private void ChangePrice()
+        {
+            TotalCost = PriceNoDiscount = Saved = Count = 0;
+            foreach (var product in ProductsBasket)
+            {
+                Count += product.Count;
+                TotalCost += (product.Product.Price - (product.Product.Price / 100 * product.Product.Discount)) * product.Count;
+                PriceNoDiscount += product.Product.Price * product.Count;
+                Saved += (product.Product.Price / 100 * product.Product.Discount) * product.Count;
+                Debug.WriteLine(product.Product.Unit);
+            }
+        }
 
         //Change Count
         public DelegateCommand DecreaseCount => new(() =>
@@ -59,11 +72,7 @@ namespace Write_Erase.MVVM.ViewModels
             else
                 ProductsBasket.Remove(SelectedProductBasket);
 
-            TotalCost = 0;
-            foreach (var product in ProductsBasket)
-            {
-                TotalCost += (product.Product.Price - (product.Product.Price / 100 * product.Product.Discount)) * product.Count;
-            }
+            ChangePrice();
         });
         public DelegateCommand IncreaseCount => new(() =>
         {
@@ -78,10 +87,7 @@ namespace Write_Erase.MVVM.ViewModels
             }
 
             TotalCost = 0;
-            foreach (var product in ProductsBasket)
-            {
-                TotalCost += (product.Product.Price - (product.Product.Price / 100 * product.Product.Discount)) * product.Count;
-            }
+            ChangePrice();
         });
         public AsyncCommand OrderCommand => new(async () =>
         {

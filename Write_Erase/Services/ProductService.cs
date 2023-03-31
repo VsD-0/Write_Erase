@@ -16,6 +16,7 @@
 
                 List<Productname> pnames = await _context.Productnames.ToListAsync();
                 List<Productmanufacturer> pmanufactures = await _context.Productmanufacturers.ToListAsync();
+                List<Productunit> productunits = await _context.Productunits.ToListAsync();
 
                 foreach (var item in product)
                 {
@@ -27,7 +28,8 @@
                         Description = item.Pdescription,
                         Manufacturer = pmanufactures.SingleOrDefault(pm => pm.ManufacturerId == item.PmanufacturerId).Manufacturer,
                         Price = item.Pcost,
-                        Discount = (int)item.PdiscountAmount
+                        Discount = (int)item.PdiscountAmount,
+                        Unit = productunits.SingleOrDefault(pn => pn.UnitId == item.PunitId).Unit
                     });
                 }
             }
