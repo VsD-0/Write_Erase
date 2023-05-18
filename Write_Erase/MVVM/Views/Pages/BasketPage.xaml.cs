@@ -1,4 +1,4 @@
-﻿namespace Write_Erase.MVVM.Views
+﻿namespace Write_Erase.MVVM.Views.Pages
 {
     /// <summary>
     /// Логика взаимодействия для BasketPage.xaml

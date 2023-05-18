@@ -1,11 +1,11 @@
 ﻿namespace Write_Erase.MVVM.Views.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для SingInPage.xaml
+    /// Interaction logic for BrowseAdminPge.xaml
     /// </summary>
-    public partial class SingInPage : Page
+    public partial class BrowseAdminPage : Page
     {
-        public SingInPage()
+        public BrowseAdminPage()
         {
             InitializeComponent();
         }

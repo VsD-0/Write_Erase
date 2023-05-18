@@ -6,6 +6,6 @@
         public string? UserSurname { get; set; }
         public string? UserName { get; set; }
         public string? UserPatronymic { get; set; }
-        public int? UserRole { get; set; }
+        public string? UserRole { get; set; }
     }
 }

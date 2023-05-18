@@ -20,6 +20,7 @@
             services.AddTransient<SignUpViewModel>();
             services.AddTransient<BrowseProductViewModel>();
             services.AddTransient<BasketViewModel>();
+            services.AddTransient<BrowseAdminViewModel>();
 
             #endregion
 
@@ -53,5 +54,6 @@
         public SignUpViewModel SignUpViewModel => _provider.GetRequiredService<SignUpViewModel>();
         public BrowseProductViewModel BrowseProductViewModel => _provider.GetRequiredService<BrowseProductViewModel>();
         public BasketViewModel BasketViewModel => _provider.GetRequiredService<BasketViewModel>();
+        public BrowseAdminViewModel BrowseAdminViewModel => _provider.GetRequiredService<BrowseAdminViewModel> ();
     }
 }

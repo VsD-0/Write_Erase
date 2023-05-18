@@ -10,6 +10,7 @@
         public async Task<bool> AuthorizationAsync(string username, string password)
         {
             var user = await _context.Users.SingleOrDefaultAsync(u => u.UserLogin == username);
+            List<Role> roles = await _context.Roles.ToListAsync();
             if (user == null)
                 return false;
             if (user.UserPassword.Equals(password))
@@ -20,7 +21,7 @@
                     UserName = user.UserName,
                     UserSurname = user.UserSurname,
                     UserPatronymic = user.UserPatronymic,
-                    UserRole = user.UserRole
+                    UserRole = roles.SingleOrDefault(rl => rl.RoleId == user.UserRole).RoleName,
                 };
                 return true;
             }

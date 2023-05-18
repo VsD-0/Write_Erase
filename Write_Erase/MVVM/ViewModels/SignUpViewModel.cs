@@ -10,15 +10,15 @@
         }
         public AsyncCommand SignUpCommand => new(async () =>
         {
-            NewUser.UserRole = 1;
-            Global.CurrentUser = new UserModel
-            {
-                Id = NewUser.UserId,
-                UserName = NewUser.UserName,
-                UserSurname = NewUser.UserSurname,
-                UserPatronymic = NewUser.UserPatronymic,
-                UserRole = NewUser.UserRole
-            };
+            //NewUser.UserRole = 1;
+            //Global.CurrentUser = new UserModel
+            //{
+            //    Id = NewUser.UserId,
+            //    UserName = NewUser.UserName,
+            //    UserSurname = NewUser.UserSurname,
+            //    UserPatronymic = NewUser.UserPatronymic,
+            //    UserRole = NewUser.UserRole
+            //};
             _pageService.ChangePage(new BrowseProductPage());
         });
         public DelegateCommand SignInCommand => new(() =>
