@@ -67,5 +67,11 @@
 
             return order.OrderId;
         }
+
+        public List<Order> GetOrders()
+        {
+            return _context.Orders.ToList();
+        }
+        public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
     }
 }

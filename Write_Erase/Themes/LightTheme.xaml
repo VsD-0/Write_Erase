@@ -8,4 +8,5 @@
     </ResourceDictionary.MergedDictionaries>
     <conv:IntegerToBrushConverter x:Key="IntegerToBrushConverter"/>
     <conv:IntegerToTextDecorationConverter x:Key="IntegerToTextDecorationConverter"/>
+    <conv:AdminStringToBrushConverter x:Key="AdminStringToBrushConverter"/>
 </ResourceDictionary>
