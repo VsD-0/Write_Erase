@@ -16,3 +16,10 @@ global using Write_Erase.MVVM.Models.Data.Tables;
 global using Write_Erase.MVVM.ViewModels;
 global using Write_Erase.MVVM.Views;
 global using Write_Erase.Services;
+
+global using DevExpress.Mvvm.Native;
+global using System.Collections.ObjectModel;
+global using System.Globalization;
+global using System.Windows;
+global using System.Windows.Data;
+global using System.Windows.Media;

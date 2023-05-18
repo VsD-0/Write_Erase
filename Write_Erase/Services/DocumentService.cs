@@ -12,17 +12,23 @@ namespace Write_Erase.Services
     {
         public static async Task Create(decimal totalCost, decimal discount, Orderpickuppoint point, int orderNumber, int code)
         {
-            PdfWriter writer = new($"Талон за {DateOnly.FromDateTime(DateTime.Now).ToString("d")}.pdf");
+            PdfWriter writer = new($"WriteErase_{DateTime.Now.ToString("MMddyyyyHHmmss")}.pdf");
             PdfDocument pdf = new(writer);
             Document document = new(pdf);
 
 
             PdfFont comic = PdfFontFactory.CreateFont(@"C:\Windows\Fonts\comic.ttf", PdfEncodings.IDENTITY_H, PdfFontFactory.EmbeddingStrategy.PREFER_NOT_EMBEDDED);
 
-            var content = new Paragraph("Благодарим за покупку")
+            var content = new Paragraph("Дата заказа")
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
                 .SetFont(comic)
-                .SetFontSize(32);
+                .SetFontSize(18);
+            document.Add(content);
+
+            content = new Paragraph(DateOnly.FromDateTime(DateTime.Now).ToString("d"))
+               .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+               .SetFont(comic)
+               .SetFontSize(16);
             document.Add(content);
 
             content = new Paragraph(" ")
@@ -32,21 +38,6 @@ namespace Write_Erase.Services
             document.Add(content);
 
             Table table = new(2, true);
-
-            table.AddCell(new Paragraph("Дата заказа:")
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
-                .SetFont(comic)
-                .SetFontSize(16));
-
-            table.AddCell(new Paragraph(DateOnly.FromDateTime(DateTime.Now).ToString("d"))
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
-                .SetFont(comic)
-                .SetFontSize(16));
-
-            table.AddCell(new Paragraph("Номер заказа:")
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
-                .SetFont(comic)
-                .SetFontSize(16));
 
             var tableOrder = new Table(2, false)
                 .SetWidth(UnitValue.CreatePercentValue(100))
@@ -120,7 +111,7 @@ namespace Write_Erase.Services
                .SetFontSize(16));
 
             document.Add(table);
-
+            
             table.Complete();
 
             document.Close();

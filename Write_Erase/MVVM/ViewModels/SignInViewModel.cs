@@ -17,32 +17,26 @@ namespace Write_Erase.MVVM.ViewModels
         }
         public AsyncCommand SignInCommand => new(async () =>
         {
-            await Task.Run(async () =>
+            if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
             {
-                if (await _userService.AuthorizationAsync(Username, Password))
-                {
-                    ErrorMessageButton = string.Empty;
-                    await Application.Current.Dispatcher.InvokeAsync(async () => _pageService.ChangePage(new BrowseProductPage()));
-                }
-                else
-                {
-                    ErrorMessageButton = "Неверный логин или пароль";
-                }
-            });
-        }, bool () =>
-        {
-            if (string.IsNullOrWhiteSpace(Username)
-                || string.IsNullOrWhiteSpace(Password))
-            {
-                ErrorMessage = "Пустые поля";
+                ErrorMessage = "Пустые пол��";
                 ErrorMessageButton = string.Empty;
+                return;
+            }
+
+            if (await _userService.AuthorizationAsync(Username, Password))
+            {
+                ErrorMessageButton = string.Empty;
+
+                if (_userService.UserRole == UserRole.Client)
+                    _pageService.ChangePage(new BrowseProductPage());
+                else
+                    _pageService.ChangePage(new BrowseAdminPage());
             }
             else
             {
-                ErrorMessage = string.Empty;
+                ErrorMessageButton = "Неверный логин или пароль";
             }
-            if (ErrorMessage.Equals(string.Empty))
-                return true; return false;
         });
         public DelegateCommand SignUpCommand => new(() => _pageService.ChangePage(new SignUpPage()));
         public DelegateCommand SignInLaterCommand => new(() => _pageService.ChangePage(new BrowseProductPage()));
