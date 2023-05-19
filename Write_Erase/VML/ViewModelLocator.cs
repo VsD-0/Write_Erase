@@ -40,6 +40,7 @@
             services.AddSingleton<UserService>();
             services.AddSingleton<ProductService>();
             services.AddSingleton<PointOfIssuesService>();
+            services.AddSingleton<OrderService>();
 
             #endregion
 

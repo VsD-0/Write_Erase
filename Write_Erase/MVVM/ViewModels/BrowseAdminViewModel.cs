@@ -10,10 +10,13 @@ namespace Write_Erase.MVVM.ViewModels
     {
         private readonly PageService _pageService;
         private readonly ProductService _productService;
+        private readonly OrderService _orderService;
+
         public List<string> Sorts { get; set; } = new() { "По возрастанию", "По убыванию" };
         public List<string> Filters { get; set; } = new() { "Все диапазоны", "Новый", "Завершен" };
         public List<string> OrderFilters { get; set; } = new() { "Новый", "Завершен" };
         public ObservableCollection<Order> Orders { get; set; }
+        public List<OrderModel> Order_m { get; set; }
         public string FullName { get; set; } = Global.CurrentUser == null ? "Гость" : $"{Global.CurrentUser.UserSurname} {Global.CurrentUser.UserName} {Global.CurrentUser.UserPatronymic}";
         public int? MaxRecords { get; set; } = 0;
         public int? Records { get; set; } = 0;
@@ -32,10 +35,11 @@ namespace Write_Erase.MVVM.ViewModels
             get { return GetValue<string>(); }
             set { SetValue(value, changedCallback: UpdateProduct); }
         }
-        public BrowseAdminViewModel(PageService pageService, ProductService productService)
+        public BrowseAdminViewModel(PageService pageService, ProductService productService, OrderService orderService)
         {
             _pageService = pageService;
             _productService = productService;
+            _orderService = orderService;
         }
         private async void UpdateProduct()
         {
@@ -47,7 +51,7 @@ namespace Write_Erase.MVVM.ViewModels
                 switch (SelectedFilter)
                 {
                     case "Новый":
-                        currentOrders = currentOrders.Where(c => c.OrderStatusId != 1).ToList();
+                        currentOrders = currentOrders.Where(c => c.OrderStatusId == 1).ToList();
                         break;
                     case "Завершен":
                         currentOrders = currentOrders.Where(c => c.OrderStatusId == 2).ToList();
@@ -73,6 +77,7 @@ namespace Write_Erase.MVVM.ViewModels
 
             Records = currentOrders.Count;
             Orders = new ObservableCollection<Order>(currentOrders);
+            Order_m = await _orderService.GetOrders();
         }
         public DelegateCommand SignOutCommand => new(() =>
         {
@@ -85,7 +90,7 @@ namespace Write_Erase.MVVM.ViewModels
         });
 
 
-        public Order SelectedOrder { get; set; }
+        public OrderModel SelectedOrder { get; set; }
 
         public bool IsDialogEditOrderOpen { get; set; } = false;
         public DateTime EditDataOrder { get; set; }
@@ -96,26 +101,21 @@ namespace Write_Erase.MVVM.ViewModels
             if (SelectedOrder == null)
                 return;
             EditDataOrder = SelectedOrder.OrderDeliveryDate;
-            EditStatusOrderIndex = SelectedOrder.OrderStatusId == 2 ? 2 : 1;
+            EditStatusOrderIndex = (SelectedOrder.OrderStatusId == 2 ? 2 : 1) + 1;
             IsDialogEditOrderOpen = true;
         });
 
         public DelegateCommand SaveCurrentOrderCommand => new(async () =>
         {
-            if (SelectedOrder.OrderDeliveryDate != EditDataOrder
-            || SelectedOrder.OrderStatusId != EditStatusOrderIndex)
-            {
-                var item = Orders.First(i => i.OrderId == SelectedOrder.OrderId);
-                var index = Orders.IndexOf(item);
-                item.OrderDeliveryDate = EditDataOrder;
-                item.OrderStatusId = SelectedOrder.OrderStatusId;
+            var item = Orders.First(i => i.OrderId == SelectedOrder.OrderId);
+            var index = Orders.IndexOf(item);
+            item.OrderDeliveryDate = EditDataOrder;
+            item.OrderStatusId = SelectedOrder.OrderStatusId;
 
-                Orders.RemoveAt(index);
-                Orders.Insert(index, item);
-                await _productService.SaveChangesAsync();
-            }
+            Orders.RemoveAt(index);
+            Orders.Insert(index, item);
+            await _orderService.SaveChangesAsync();
             IsDialogEditOrderOpen = false;
         });
-
     }
 }

@@ -81,6 +81,13 @@
                         Cursor="Hand">
                     <Underline>Войти позже</Underline>
                 </Button>
+                <Button Foreground="Black" 
+                        Style="{StaticResource ButtonToText}" 
+                        Command="{Binding SignInAdminCommand}"
+                        FontFamily="{StaticResource Font}"
+                        Cursor="Hand">
+                    <Underline>Администратор</Underline>
+                </Button>
             </StackPanel>
         </Grid>
     </Grid>
