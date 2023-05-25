@@ -135,7 +135,7 @@
                     <DataTemplate>
                         <materialDesign:Card Background="{Binding Discount, Converter={StaticResource IntegerToBrushConverter}}"
                                              Padding="8"
-                                             Width="610"
+                                             Width="1200"
                                              HorizontalContentAlignment="Stretch">
                             <Grid HorizontalAlignment="Stretch"
                                   VerticalAlignment="Center">

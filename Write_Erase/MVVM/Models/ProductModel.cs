@@ -18,5 +18,6 @@
         {
             get { return this.Price - (this.Price / 100 * this.Discount); }
         }
+        public int Count { get; set; }
     }
 }

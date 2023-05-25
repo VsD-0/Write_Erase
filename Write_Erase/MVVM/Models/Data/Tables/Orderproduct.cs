@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Write_Erase.MVVM.Models.Data.Tables;
+﻿namespace Write_Erase.MVVM.Models.Data.Tables;
 
 public partial class Orderproduct
 {

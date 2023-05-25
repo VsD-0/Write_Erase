@@ -15,8 +15,7 @@ namespace Write_Erase.MVVM.ViewModels
         public List<string> Sorts { get; set; } = new() { "По возрастанию", "По убыванию" };
         public List<string> Filters { get; set; } = new() { "Все диапазоны", "Новый", "Завершен" };
         public List<string> OrderFilters { get; set; } = new() { "Новый", "Завершен" };
-        public ObservableCollection<Order> Orders { get; set; }
-        public List<OrderModel> Order_m { get; set; }
+        public ObservableCollection<OrderModel> Orders { get; set; }
         public string FullName { get; set; } = Global.CurrentUser == null ? "Гость" : $"{Global.CurrentUser.UserSurname} {Global.CurrentUser.UserName} {Global.CurrentUser.UserPatronymic}";
         public int? MaxRecords { get; set; } = 0;
         public int? Records { get; set; } = 0;
@@ -43,9 +42,10 @@ namespace Write_Erase.MVVM.ViewModels
         }
         private async void UpdateProduct()
         {
-            var currentOrders = _productService.GetOrders();
+            var currentOrders = await _orderService.GetOrders();
             MaxRecords = currentOrders.Count;
 
+            #region FilterSortSearch
             if (!string.IsNullOrEmpty(SelectedFilter))
             {
                 switch (SelectedFilter)
@@ -74,10 +74,10 @@ namespace Write_Erase.MVVM.ViewModels
                         break;
                 }
             }
+            #endregion FilterSortSearch
 
             Records = currentOrders.Count;
-            Orders = new ObservableCollection<Order>(currentOrders);
-            Order_m = await _orderService.GetOrders();
+            Orders = new ObservableCollection<OrderModel>(currentOrders);
         }
         public DelegateCommand SignOutCommand => new(() =>
         {

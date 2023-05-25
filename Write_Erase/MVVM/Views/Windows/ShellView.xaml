@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         DataContext="{Binding ShellViewModel, 
                         Source={StaticResource ViewModelLocator}}"
-        Title="Пиши - Стирай" Height="450" Width="680"
-        MinWidth="680"
-        MinHeight="250">
+        Title="Пиши - Стирай" Height="450" Width="1050"
+        MinWidth="720"
+        MinHeight="500">
     <Frame NavigationUIVisibility="Hidden"
            Content="{Binding PageSource}"/>
 </Window>

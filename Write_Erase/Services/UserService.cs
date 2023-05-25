@@ -27,5 +27,37 @@
             }
             return false;
         }
+
+        public async Task<List<string>> GetAllLogin()
+        {
+            return await _context.Users.Select(u => u.UserLogin).AsNoTracking().ToListAsync();
+        }
+
+        public async Task AddNewUser(string UserName, string UserSurname, string UserPatronymic, string UserLogin, string UserPassword)
+        {
+            try
+            {
+                Debug.WriteLine($"Values: {UserName}, {UserSurname}, {UserPatronymic}, {UserLogin}, {UserPassword}");
+                var user = new User
+                {
+                    UserName = UserName,
+                    UserSurname = UserSurname,
+                    UserPatronymic = UserPatronymic,
+                    UserLogin = UserLogin,
+                    UserPassword = UserPassword,
+                    UserRole = 2
+                };
+                await _context.Users.AddAsync(user);
+                await _context.SaveChangesAsync();
+                Debug.WriteLine(user.UserId);
+                var current = _context.Users.SingleOrDefault(u => u.UserId == user.UserId);
+                Debug.WriteLine(current.UserLogin);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+            }
+        }
     }
 }

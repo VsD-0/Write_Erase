@@ -36,7 +36,7 @@
                      materialDesign:HintAssist.Hint="Поиск"
                      materialDesign:HintAssist.Background="#FFFFFF"
                      materialDesign:HintAssist.FloatingScale="0.9"
-                      materialDesign:HintAssist.FloatingOffset="1 -20"
+                     materialDesign:HintAssist.FloatingOffset="1 -20"
                      materialDesign:TextFieldAssist.LeadingIcon="Search"
                      materialDesign:TextFieldAssist.HasLeadingIcon="True"
                      Text="{Binding Search, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -146,9 +146,11 @@
         </materialDesign:DialogHost>
 
         <Grid Grid.Row="1">
-            <ListView ItemsSource="{Binding Order_m, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <ListView FontFamily="{StaticResource Font}"
+                      ItemsSource="{Binding Orders, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       SelectedItem="{Binding SelectedOrder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       HorizontalContentAlignment="Stretch"
+                      HorizontalAlignment="Center"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
                 <ListView.ContextMenu>
@@ -160,7 +162,7 @@
 
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Vertical"/>
+                        <WrapPanel/>
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
 
@@ -168,9 +170,13 @@
                     <DataTemplate>
                         <materialDesign:Card Background="{Binding Orderproducts}"
                                              Padding="8"
+                                             Width="930"
                                              HorizontalContentAlignment="Stretch">
-                            <Grid Margin="5">
+                            <Grid Margin="5"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Center">
                                 <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
                                     <RowDefinition Height="auto"/>
                                     <RowDefinition Height="auto"/>
                                     <RowDefinition Height="auto"/>
@@ -199,6 +205,26 @@
                                 <TextBlock Grid.Row="6"
                                                 Text="{Binding OrderStatusId, StringFormat={}Статус заказа: {0}}"
                                                 TextWrapping="Wrap"/>
+                                <DataGrid Grid.Row="7" 
+                                          AutoGenerateColumns="False"
+                                          CanUserAddRows="False"
+                                          HeadersVisibility="All"
+                                          ItemsSource="{Binding Products}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding Article}"
+                                                            Header="Арт."/>
+                                        <DataGridTextColumn Binding="{Binding Title}" 
+                                                            Header="Название"/>
+                                        <DataGridTextColumn Binding="{Binding Description}"
+                                                            Header="Описание" />
+                                        <DataGridTextColumn Binding="{Binding Manufacturer}"
+                                                            Header="Производитель"/>
+                                        <DataGridTextColumn Binding="{Binding DisplayedPrice}"
+                                                            Header="Стоимость"/>
+                                        <DataGridTextColumn Binding="{Binding Count}"
+                            Header="Количество"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
                             </Grid>
                         </materialDesign:Card>
                     </DataTemplate>

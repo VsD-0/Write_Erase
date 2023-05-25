@@ -40,41 +40,41 @@
             <TextBox Grid.Row="1"
                      Foreground="Black"
                      FontFamily="{StaticResource Font}"
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                     Style="{StaticResource TextBoxStyle}"
                      materialDesign:HintAssist.Hint="Имя"
-                     Text="{Binding NewUser.UserName}"
+                     Text="{Binding Name}"
                      Margin="0 5 0 0"/>
 
             <TextBox Grid.Row="2"
                      Foreground="Black"
                      FontFamily="{StaticResource Font}"
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                     Style="{StaticResource TextBoxStyle}"
                      materialDesign:HintAssist.Hint="Фамилия"
-                     Text="{Binding NewUser.UserSurname}"
+                     Text="{Binding Surname}"
                      Margin="0 15 0 0"/>
 
             <TextBox Grid.Row="3"
                      Foreground="Black"
                      FontFamily="{StaticResource Font}"
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                     Style="{StaticResource TextBoxStyle}"
                      materialDesign:HintAssist.Hint="Отчество"
-                     Text="{Binding NewUser.UserPatronymic}"
+                     Text="{Binding Patronymic}"
                      Margin="0 15 0 0"/>
             
             <TextBox Grid.Row="4"
                      Foreground="Black"
                      FontFamily="{StaticResource Font}"
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                     Style="{StaticResource TextBoxStyle}"
                      materialDesign:HintAssist.Hint="Логин"
-                     Text="{Binding NewUser.UserLogin}"
+                     Text="{Binding Login}"
                      Margin="0 15 0 0"/>
 
             <TextBox Grid.Row="5"
                      Foreground="Black"
                      FontFamily="{StaticResource Font}"
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                     Style="{StaticResource TextBoxStyle}"
                      materialDesign:HintAssist.Hint="Пароль"
-                     Text="{Binding NewUser.UserPassword}"
+                     Text="{Binding Password}"
                      Margin="0 15 0 0"/>
 
             <Button Grid.Row="6"

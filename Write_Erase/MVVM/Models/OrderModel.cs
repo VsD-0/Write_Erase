@@ -1,4 +1,7 @@
-﻿namespace Write_Erase.MVVM.Models
+﻿using Pomelo.EntityFrameworkCore.MySql.Query.Internal;
+using Write_Erase.Services;
+
+namespace Write_Erase.MVVM.Models
 {
     public class OrderModel
     {
@@ -13,6 +16,6 @@
         public decimal OrderAmmount { get; set; }
         public decimal OrderDiscountAmmount { get; set; }
         public List<int> Counts { get; set; }
-        public List<Product> Products { get; set; }
+        public List<ProductModel> Products { get; set; }
     }
 }

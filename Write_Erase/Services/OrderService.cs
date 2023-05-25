@@ -1,60 +1,71 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Write_Erase.MVVM.Models;
-using Write_Erase.MVVM.Models.Data.Tables;
-
-namespace Write_Erase.Services
+﻿namespace Write_Erase.Services
 {
     public class OrderService
     {
         private readonly StoreContext _context;
-        public OrderService(StoreContext context)
+        private readonly ProductService _productService;
+
+        public OrderService(StoreContext context, ProductService productService)
         {
             _context = context;
+            _productService = productService;
         }
         public async Task<List<OrderModel>> GetOrders()
         {
             List<OrderModel> orderModels = new();
             try
             {
+                var products = await _productService.GetProducts();
+
                 var orders = await _context.Orders
-                .Include(o => o.OrderPickupPoint)
-                .Include(o => o.OrderStatus)
-                .Select(o => new
-                {
-                    Order = o,
-                    Orderproducts = o.Orderproducts,
-                    Products = o.Orderproducts.Select(op => op.ParticleNumberNavigation)
-                })
-                .ToListAsync();
+                    .Include(o => o.OrderPickupPoint)
+                    .Include(o => o.OrderStatus)
+                    .Include(o => o.Orderproducts)
+                        .ThenInclude(op => op.ParticleNumberNavigation)
+                            .ThenInclude(p => p.Pname)
+                    .Include(o => o.Orderproducts)
+                        .ThenInclude(op => op.ParticleNumberNavigation)
+                            .ThenInclude(p => p.Pmanufacturer)
+                    .Include(o => o.Orderproducts)
+                        .ThenInclude(op => op.ParticleNumberNavigation)
+                            .ThenInclude(p => p.Punit)
+                    .ToListAsync();
 
                 orderModels = orders.Select(o => new OrderModel
                 {
-                    OrderId = o.Order.OrderId,
-                    OrderStatusId = o.Order.OrderStatusId,
-                    OrderStatus = o.Order.OrderStatus.StatusName,
-                    OrderDeliveryDate = o.Order.OrderDeliveryDate,
-                    DateOfOrder = o.Order.DateOfOrder,
-                    OrderPickupPointId = o.Order.OrderPickupPointId,
-                    FullNameUser = o.Order.FullNameUser,
-                    ReceiptCode = o.Order.ReceiptCode,
-                    OrderAmmount = o.Products.Sum(p => p.Pcost * o.Orderproducts.FirstOrDefault(op => op.ParticleNumber == p.ParticleNumber)?.Count ?? 0),
-                    OrderDiscountAmmount = o.Products.Sum(p => (decimal)p.PmaxDiscount),
-
-                    Products = o.Products.ToList()
+                    OrderId = o.OrderId,
+                    OrderStatusId = o.OrderStatusId,
+                    OrderStatus = o.OrderStatus.StatusName,
+                    OrderDeliveryDate = o.OrderDeliveryDate,
+                    DateOfOrder = o.DateOfOrder,
+                    OrderPickupPointId = o.OrderPickupPointId,
+                    FullNameUser = o.FullNameUser,
+                    ReceiptCode = o.ReceiptCode,
+                    OrderAmmount = o.Orderproducts.Sum(op => products.FirstOrDefault(p => p.Article == op.ParticleNumberNavigation.ParticleNumber)?.Price * op.Count ?? 0),
+                    OrderDiscountAmmount = o.Orderproducts.Sum(op => (op.ParticleNumberNavigation.Pcost - (op.ParticleNumberNavigation.PmaxDiscount ?? 0) / 100 * op.ParticleNumberNavigation.Pcost) * op.Count),
+                    Products = o.Orderproducts.Select(op => new ProductModel
+                    {
+                        Article = op.ParticleNumberNavigation.ParticleNumber,
+                        Image = op.ParticleNumberNavigation.Pphoto == string.Empty ? "picture.png" : op.ParticleNumberNavigation.Pphoto,
+                        Title = op.ParticleNumberNavigation.Pname.Name,
+                        Description = op.ParticleNumberNavigation.Pdescription,
+                        Manufacturer = op.ParticleNumberNavigation.Pmanufacturer.Manufacturer,
+                        Price = op.ParticleNumberNavigation.Pcost,
+                        Discount = (int)op.ParticleNumberNavigation.PdiscountAmount,
+                        Unit = op.ParticleNumberNavigation.Punit.Unit,
+                        Count = op.Count
+                    }).ToList()
                 }).ToList();
             }
-            // Обработка исключения
             catch (InvalidOperationException ex)
             {
                 Debug.WriteLine(ex);
                 orderModels.Add(new OrderModel { });
             }
+
             return orderModels;
         }
         public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
     }
 }
+             
