@@ -25,7 +25,7 @@ public partial class Product
 
     public int PquantityInStock { get; set; }
 
-    public string? Pstatus { get; set; }
+    public int Pstatus { get; set; }
 
     public int PproviderId { get; set; }
 

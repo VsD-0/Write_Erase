@@ -1,4 +1,6 @@
-﻿namespace Write_Erase.MVVM.ViewModels
+﻿using Write_Erase.Services;
+
+namespace Write_Erase.MVVM.ViewModels
 {
     public class BrowseProductAdmViewModel : BindableBase
     {
@@ -8,6 +10,8 @@
         #endregion Fields
 
         #region Property
+        public bool IsCheckedHideProduct { get; set; }
+        public bool IsDialogEditOrderOpen { get; set; } = false;
         public List<string> Sorts { get; set; } = new() { "По умолчанию", "По возрастанию", "По убыванию" };
         public List<string> Filters { get; set; } = new() { "Все диапазоны", "0-5%", "5-9%", "9% и более" };
         public List<ProductModel> Products { get; set; }
@@ -41,7 +45,7 @@
         #region Command
         async void ChangeList()
         {
-            var actualProduct = await _productService.GetProducts();
+            List<ProductModel> actualProduct = await _productService.GetProducts();
             MaxRecords = actualProduct.Count;
 
             if (!string.IsNullOrEmpty(Search))
@@ -87,6 +91,24 @@
         {
             Global.CurrentUser = null;
             _pageService.ChangePage(new SingInPage());
+        });
+
+        public DelegateCommand EditProduct => new(() =>
+        {
+            IsCheckedHideProduct = SelectedProduct.Status == 1 ? true : false;
+            IsDialogEditOrderOpen = true;
+        });
+
+        public DelegateCommand SaveProductCommand => new(async () =>
+        {
+            var item = Products.First(i => i.Article == SelectedProduct.Article);
+            var index = Products.IndexOf(item);
+            item.Status = IsCheckedHideProduct == true ? 1 : 0;
+
+            Products.RemoveAt(index);
+            Products.Insert(index, item);
+            await _productService.SaveChangesAsync();
+            IsDialogEditOrderOpen = false;
         });
         #endregion Command
     }

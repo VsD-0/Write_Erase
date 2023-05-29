@@ -164,7 +164,6 @@ public partial class StoreContext : DbContext
             entity.Property(e => e.PproviderId).HasColumnName("PProviderId");
             entity.Property(e => e.PquantityInStock).HasColumnName("PQuantityInStock");
             entity.Property(e => e.Pstatus)
-                .HasColumnType("text")
                 .HasColumnName("PStatus");
             entity.Property(e => e.PunitId).HasColumnName("PUnitID");
 

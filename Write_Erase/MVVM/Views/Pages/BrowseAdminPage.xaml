@@ -168,8 +168,7 @@
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <materialDesign:Card Background="{Binding Orderproducts}"
-                                             Padding="8"
+                        <materialDesign:Card Padding="8"
                                              Width="930"
                                              HorizontalContentAlignment="Stretch">
                             <Grid Margin="5"

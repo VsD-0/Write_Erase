@@ -1,14 +1,20 @@
-﻿namespace Write_Erase.Services
+﻿using System.Threading;
+
+namespace Write_Erase.Services
 {
     public class ProductService
     {
         private readonly StoreContext _context;
+
+        private static SemaphoreSlim _semaphoreSlim = new(1, 1);
+
         public ProductService(StoreContext context)
         {
             _context = context;
         }
         public async Task<List<ProductModel>> GetProducts()
         {
+            await _semaphoreSlim.WaitAsync();
             List<ProductModel> products = new();
             try
             {
@@ -30,25 +36,17 @@
                         Price = item.Pcost,
                         Discount = (int)item.PdiscountAmount,
                         Unit = productunits.SingleOrDefault(pn => pn.UnitId == item.PunitId).Unit,
-                        InStock = item.PquantityInStock
+                        InStock = item.PquantityInStock,
+                        Status = item.Pstatus,
                     });
                 }
+
+                return products;
             }
-            catch (InvalidOperationException ex)
+            finally
             {
-                Debug.WriteLine(ex);
-                products.Add(new ProductModel
-                {
-                    Article = "#Article#",
-                    Image = "picture.png",
-                    Title = "#Имя?#",
-                    Description = "#Описание?#",
-                    Manufacturer = "#Производитель?#",
-                    Price = 100,
-                    Discount = 5
-                });
+                _semaphoreSlim.Release();
             }
-            return products;
         }
         public async Task<Order> AddOrder(Order order)
         {
@@ -73,6 +71,6 @@
         {
             return _context.Orders.ToList();
         }
-        
+        public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
     }
 }

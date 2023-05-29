@@ -5,6 +5,14 @@
     <TargetFramework>net7.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+
+	<configuration>
+		<system.diagnostics>
+			<switches>
+				<add name="PresentationTraceSources.TraceLevel" value="High" />
+			</switches>
+		</system.diagnostics>
+	</configuration>
   </PropertyGroup>
 
   <ItemGroup>
@@ -88,5 +96,4 @@
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
-
 </Project>

@@ -1,6 +1,4 @@
-﻿using System.Windows;
-
-namespace Write_Erase.MVVM.ViewModels
+﻿namespace Write_Erase.MVVM.ViewModels
 {
     public class SignInViewModel : BindableBase
     {
@@ -48,6 +46,6 @@ namespace Write_Erase.MVVM.ViewModels
         public DelegateCommand SignUpCommand => new(() => _pageService.ChangePage(new SignUpPage()));
         public DelegateCommand SignInLaterCommand => new(() => _pageService.ChangePage(new BrowseProductPage()));
         // TODO: Удалить кнопку быстрого входа для админинистрации
-        public DelegateCommand SignInAdminCommand => new(() => _pageService.ChangePage(new BrowseAdminPage()));
+        public DelegateCommand SignInAdminCommand => new(() => _pageService.ChangePage(new BrowseProductAdmPage()));
     }
 }

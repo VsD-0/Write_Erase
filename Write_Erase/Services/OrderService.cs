@@ -1,7 +1,10 @@
-﻿namespace Write_Erase.Services
+﻿using System.Threading;
+
+namespace Write_Erase.Services
 {
     public class OrderService
     {
+        private static SemaphoreSlim _semaphoreSlim = new(1, 1);
         private readonly StoreContext _context;
         private readonly ProductService _productService;
 
@@ -12,6 +15,7 @@
         }
         public async Task<List<OrderModel>> GetOrders()
         {
+            await _semaphoreSlim.WaitAsync();
             List<OrderModel> orderModels = new();
             try
             {
@@ -56,14 +60,12 @@
                         Count = op.Count
                     }).ToList()
                 }).ToList();
+                return orderModels;
             }
-            catch (InvalidOperationException ex)
+            finally
             {
-                Debug.WriteLine(ex);
-                orderModels.Add(new OrderModel { });
+                _semaphoreSlim.Release();
             }
-
-            return orderModels;
         }
         public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
     }

@@ -20,5 +20,6 @@
         }
         public int Count { get; set; }
         public int InStock { get; set; }
+        public int Status { get; set; }
     }
 }

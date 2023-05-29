@@ -111,6 +111,33 @@
             </Menu>
         </Grid>
 
+        <materialDesign:DialogHost Panel.ZIndex="2"
+                                   Grid.RowSpan="2"
+                                   IsOpen="{Binding IsDialogEditOrderOpen}"
+                                   Identifier="EditProduct">
+            <materialDesign:DialogHost.DialogContent >
+                <Grid Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+
+                    <CheckBox Content="Скрыть товар"
+                              Margin="0 0 0 5"
+                              IsChecked="{Binding IsCheckedHideProduct}"/>
+
+                    <Button Grid.Row="1"
+                            Content="Сохранить"
+                            Command="{Binding SaveProductCommand}"
+                            Margin="0 0 0 5"/>
+                    <Button Grid.Row="2"
+                            Content="Отмена"
+                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
+                </Grid>
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
+
         <Grid Grid.Row="1" HorizontalAlignment="Center">
             <ListView x:Name="Records"
                       FontFamily="{StaticResource Font}"
@@ -127,7 +154,6 @@
 
                 <ListView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Удалить продукт" Command="{Binding RemoveProduct}"/>
                         <MenuItem Header="Редактировать продукт" Command="{Binding EditProduct}"/>
                     </ContextMenu>
                 </ListView.ContextMenu>

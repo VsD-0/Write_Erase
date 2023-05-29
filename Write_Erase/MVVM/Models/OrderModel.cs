@@ -1,7 +1,4 @@
-﻿using Pomelo.EntityFrameworkCore.MySql.Query.Internal;
-using Write_Erase.Services;
-
-namespace Write_Erase.MVVM.Models
+﻿namespace Write_Erase.MVVM.Models
 {
     public class OrderModel
     {
