@@ -1,8 +1,6 @@
-﻿using System.Linq;
-
-namespace Write_Erase.MVVM.ViewModels
+﻿namespace Write_Erase.MVVM.ViewModels
 {
-    public class BrowseProductViewModel : BindableBase
+    public class BrowseProductAdmViewModel : BindableBase
     {
         #region Fields
         private readonly PageService _pageService;
@@ -34,7 +32,7 @@ namespace Write_Erase.MVVM.ViewModels
         public int? FoundRecords { get; set; } = 0;
         #endregion
 
-        public BrowseProductViewModel(PageService pageService, ProductService productService)
+        public BrowseProductAdmViewModel(PageService pageService, ProductService productService)
         {
             _pageService = pageService;
             _productService = productService;
@@ -84,44 +82,11 @@ namespace Write_Erase.MVVM.ViewModels
             Products = actualProduct;
         }
 
-        public DelegateCommand BasketCommand => new(() => _pageService.ChangePage(new BasketPage()));
+        public DelegateCommand OrderCommand => new(() => _pageService.ChangePage(new BrowseAdminPage()));
         public DelegateCommand SignOutCommand => new(() =>
         {
             Global.CurrentUser = null;
             _pageService.ChangePage(new SingInPage());
-        });
-        public DelegateCommand AddProduct => new(() =>
-        {
-            ProductModel p = Products.Where(c => c.Article == SelectedProduct.Article).First();
-            if (Global.ProductsBasket.Where(c => c.Product.Article == SelectedProduct.Article).Count() == 0)
-            {
-                Basket basket = new Basket();
-                basket.Product = p;
-                basket.Count = 1;
-                Global.ProductsBasket.Add(basket);
-            }
-            else
-            {
-                Basket bp = Global.ProductsBasket.Where(c => c.Product.Article == SelectedProduct.Article).First();
-                bp.Count++;
-            }
-        }, bool () =>
-        {
-            if (SelectedProduct != null)
-            {
-                foreach (var item in Global.ProductsBasket)
-                {
-                    if (item.Product.Article == SelectedProduct.Article)
-                        if (item.Count < SelectedProduct.InStock)
-                            return true;
-                        else
-                            return false;
-                    else
-                        return true;
-                }
-                return true;
-            }
-            return false;
         });
         #endregion Command
     }

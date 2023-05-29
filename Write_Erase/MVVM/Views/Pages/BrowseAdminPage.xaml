@@ -10,7 +10,8 @@
                     Source={StaticResource ViewModelLocator}}"
       Background="White"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-      Title="BrowseAdminPge">
+      Title="BrowseAdminPge"
+      >
 
     <Grid>
         <Grid.RowDefinitions>
@@ -73,7 +74,7 @@
                        HorizontalAlignment="Center">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0}/{1}">
-                        <Binding Path="FoundRecords"/>
+                        <Binding Path="Records"/>
                         <Binding Path="MaxRecords"/>
                     </MultiBinding>
                 </TextBlock.Text>
@@ -93,9 +94,8 @@
 
                     <Separator Style="{StaticResource MaterialDesignLightSeparator}"
                                    Margin="10 0 10 0"/>
-
-                    <Separator Style="{StaticResource MaterialDesignLightSeparator}"
-                                   Margin="10 0 10 0"/>
+                    <MenuItem Header="Товары"
+                              Command="{Binding ProductCommand}"/>
 
                     <MenuItem Header="Выйти"
                               Command="{Binding SignOutCommand}"

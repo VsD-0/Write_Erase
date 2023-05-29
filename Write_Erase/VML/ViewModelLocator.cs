@@ -21,6 +21,7 @@
             services.AddTransient<BrowseProductViewModel>();
             services.AddTransient<BasketViewModel>();
             services.AddTransient<BrowseAdminViewModel>();
+            services.AddTransient<BrowseProductAdmViewModel>();
 
             #endregion
 
@@ -56,5 +57,6 @@
         public BrowseProductViewModel BrowseProductViewModel => _provider.GetRequiredService<BrowseProductViewModel>();
         public BasketViewModel BasketViewModel => _provider.GetRequiredService<BasketViewModel>();
         public BrowseAdminViewModel BrowseAdminViewModel => _provider.GetRequiredService<BrowseAdminViewModel> ();
+        public BrowseProductAdmViewModel BrowseProductAdmViewModel => _provider.GetRequiredService<BrowseProductAdmViewModel>();
     }
 }

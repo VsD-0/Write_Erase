@@ -117,5 +117,7 @@ namespace Write_Erase.MVVM.ViewModels
             await _orderService.SaveChangesAsync();
             IsDialogEditOrderOpen = false;
         });
+
+        public DelegateCommand ProductCommand => new(() => _pageService.ChangePage(new BrowseProductAdmPage()));
     }
 }

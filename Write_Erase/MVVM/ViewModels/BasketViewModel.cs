@@ -88,12 +88,16 @@ namespace Write_Erase.MVVM.ViewModels
 
             TotalCost = 0;
             ChangePrice();
+        }, bool () =>
+        {
+            return SelectedProductBasket != null
+                   && SelectedProductBasket.Product.InStock > SelectedProductBasket.Count;
         });
         public AsyncCommand OrderCommand => new(async () =>
         {
             int code = rnd.Next(100, 999);
             Debug.WriteLine("Заказ оформлен");
-            await DocumentService.Create(TotalCost, 0, CheckoutPointSelected, await _productService.AddOrder(new Order
+            await DocumentService.Create(TotalCost, CheckoutPointSelected, await _productService.AddOrder(new Order
             {
                 OrderStatusId = 1,
                 OrderDeliveryDate = DateTime.Now,
@@ -101,7 +105,7 @@ namespace Write_Erase.MVVM.ViewModels
                 OrderPickupPointId = CheckoutPointSelected.PickupPointId,
                 FullNameUser = FullName,
                 ReceiptCode = code,
-            }), code);
+            }), ProductsBasket);
         }, bool () => { return CheckoutPointSelected != null && FullName != "Гость"; });
         #endregion Commands
     }

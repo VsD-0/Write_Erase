@@ -29,7 +29,8 @@
                         Manufacturer = pmanufactures.SingleOrDefault(pm => pm.ManufacturerId == item.PmanufacturerId).Manufacturer,
                         Price = item.Pcost,
                         Discount = (int)item.PdiscountAmount,
-                        Unit = productunits.SingleOrDefault(pn => pn.UnitId == item.PunitId).Unit
+                        Unit = productunits.SingleOrDefault(pn => pn.UnitId == item.PunitId).Unit,
+                        InStock = item.PquantityInStock
                     });
                 }
             }
@@ -49,7 +50,7 @@
             }
             return products;
         }
-        public async Task<int> AddOrder(Order order)
+        public async Task<Order> AddOrder(Order order)
         {
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
@@ -65,7 +66,7 @@
                 await _context.SaveChangesAsync();
             }
 
-            return order.OrderId;
+            return order;
         }
 
         public List<Order> GetOrders()

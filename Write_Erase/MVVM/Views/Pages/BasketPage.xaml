@@ -210,6 +210,7 @@
                                                  MaxLength="2"
                                                  Padding="0"
                                                  FontSize="20"
+                                                 IsEnabled="False"
                                                  VerticalContentAlignment="Center"
                                                  HorizontalAlignment="Center"
                                                  HorizontalContentAlignment="Center"
