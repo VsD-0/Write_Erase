@@ -84,6 +84,7 @@ namespace Write_Erase.MVVM.ViewModels
             Global.CurrentUser.UserSurname = string.Empty;
             Global.CurrentUser.UserPatronymic = string.Empty;
             Global.CurrentUser.UserRole = string.Empty;
+
             _pageService.ChangePage(new SingInPage());
         });
 

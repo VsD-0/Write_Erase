@@ -11,6 +11,10 @@ namespace Write_Erase.MVVM.ViewModels
 
         #region Property
         public bool IsCheckedHideProduct { get; set; }
+        public string EditDescription { get; set; }
+        public decimal EditCost { get; set; }
+        public int EditDiscount { get; set; }
+        public int EditInStock { get; set; }
         public bool IsDialogEditOrderOpen { get; set; } = false;
         public List<string> Sorts { get; set; } = new() { "По умолчанию", "По возрастанию", "По убыванию" };
         public List<string> Filters { get; set; } = new() { "Все диапазоны", "0-5%", "5-9%", "9% и более" };
@@ -96,6 +100,10 @@ namespace Write_Erase.MVVM.ViewModels
         public DelegateCommand EditProduct => new(() =>
         {
             IsCheckedHideProduct = SelectedProduct.Status == 1 ? true : false;
+            EditDescription = SelectedProduct.Description;
+            EditCost = SelectedProduct.Price;
+            EditDiscount = SelectedProduct.Discount;
+            EditInStock = SelectedProduct.InStock;
             IsDialogEditOrderOpen = true;
         });
 
@@ -104,10 +112,13 @@ namespace Write_Erase.MVVM.ViewModels
             var item = Products.First(i => i.Article == SelectedProduct.Article);
             var index = Products.IndexOf(item);
             item.Status = IsCheckedHideProduct == true ? 1 : 0;
-
+            item.Description = EditDescription;
+            item.Price = EditCost;
+            item.Discount = EditDiscount;
+            item.InStock = EditInStock;
             Products.RemoveAt(index);
             Products.Insert(index, item);
-            await _productService.SaveChangesAsync();
+            await _productService.SaveChangesAsync(item);
             IsDialogEditOrderOpen = false;
         });
         #endregion Command

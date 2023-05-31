@@ -118,20 +118,51 @@
             <materialDesign:DialogHost.DialogContent >
                 <Grid Margin="20">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <CheckBox Content="Скрыть товар"
+                    <TextBox Grid.Row="0"
+                             Margin="5"
+                             materialDesign:HintAssist.Hint="Стоимость товара"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             Text="{Binding EditCost}"/>
+                    <TextBox Grid.Row="1"
+                             Margin="5"
+                             materialDesign:HintAssist.Hint="Скидка товара"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             Text="{Binding EditDiscount}"/>
+                    <TextBox Grid.Row="2"
+                             Margin="5"
+                             materialDesign:HintAssist.Hint="Количество на складе"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             Text="{Binding EditInStock}"/>
+                    <TextBox Grid.Row="3"
+                             Margin="5"
+                             Width="220"
+                             VerticalAlignment="Top"
+                             materialDesign:HintAssist.Hint="Описание товара"
+                             materialDesign:TextFieldAssist.CharacterCounterVisibility="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextBoxTextCountComboBox, Converter={StaticResource BooleanToVisibilityConverter}}"
+                             MaxLength="150"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             TextWrapping="Wrap"
+                             VerticalScrollBarVisibility="Auto" 
+                             Text="{Binding EditDescription}"/>
+                    <CheckBox Grid.Row="4" 
+                              Content="Скрыть товар"
                               Margin="0 0 0 5"
                               IsChecked="{Binding IsCheckedHideProduct}"/>
 
-                    <Button Grid.Row="1"
+                    <Button Grid.Row="5"
                             Content="Сохранить"
                             Command="{Binding SaveProductCommand}"
                             Margin="0 0 0 5"/>
-                    <Button Grid.Row="2"
+                    <Button Grid.Row="6"
                             Content="Отмена"
                             Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
                 </Grid>

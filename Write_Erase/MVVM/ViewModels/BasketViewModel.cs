@@ -21,6 +21,7 @@ namespace Write_Erase.MVVM.ViewModels
         public Orderpickuppoint CheckoutPointSelected { get; set; }
         public decimal PriceNoDiscount { get; set; }
         public decimal Saved { get; set; }
+        public bool IsCompleted { get; set; } = false;
         public int Count { get; set; }
         #endregion Property
 
@@ -36,6 +37,7 @@ namespace Write_Erase.MVVM.ViewModels
         #region Commands
         public DelegateCommand BrowseProductCommand => new(() =>
         {
+            if (IsCompleted) Global.ProductsBasket.Clear();
             _pageService.ChangePage(new BrowseProductPage());
         });
         public DelegateCommand SignOutCommand => new(() =>
@@ -106,6 +108,7 @@ namespace Write_Erase.MVVM.ViewModels
                 FullNameUser = FullName,
                 ReceiptCode = code,
             }), ProductsBasket);
+            IsCompleted = true;
         }, bool () => { return CheckoutPointSelected != null && FullName != "Гость"; });
         #endregion Commands
     }

@@ -44,7 +44,7 @@ namespace Write_Erase.MVVM.ViewModels
         async void ChangeList()
         {
             var actualProduct = await _productService.GetProducts();
-            actualProduct = actualProduct.Where(p => p.Status == 1).ToList();
+            actualProduct = actualProduct.Where(p => p.Status == 1 && p.InStock > 0).ToList();
             MaxRecords = actualProduct.Count;
 
             if (!string.IsNullOrEmpty(Search))
