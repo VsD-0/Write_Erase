@@ -1,8 +1,6 @@
-﻿using System.Linq;
-
-namespace Write_Erase.MVVM.ViewModels
+﻿namespace Write_Erase.MVVM.ViewModels
 {
-    public class BrowseProductViewModel : BindableBase
+    internal class BrowseProductViewModel : BindableBase
     {
         #region Fields
         private readonly PageService _pageService;
@@ -89,6 +87,7 @@ namespace Write_Erase.MVVM.ViewModels
         public DelegateCommand SignOutCommand => new(() =>
         {
             Global.CurrentUser = null;
+            Global.ProductsBasket.Clear();
             _pageService.ChangePage(new SingInPage());
         });
         public DelegateCommand AddProduct => new(() =>
@@ -96,7 +95,7 @@ namespace Write_Erase.MVVM.ViewModels
             ProductModel p = Products.Where(c => c.Article == SelectedProduct.Article).First();
             if (Global.ProductsBasket.Where(c => c.Product.Article == SelectedProduct.Article).Count() == 0)
             {
-                Basket basket = new Basket();
+                Basket basket = new();
                 basket.Product = p;
                 basket.Count = 1;
                 Global.ProductsBasket.Add(basket);

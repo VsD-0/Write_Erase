@@ -1,6 +1,6 @@
 ﻿namespace Write_Erase.MVVM.ViewModels
 {
-    public class ShellViewModel : BindableBase
+    internal class ShellViewModel : BindableBase
     {
         private readonly PageService _pageService;
         public Page? PageSource { get; set; }

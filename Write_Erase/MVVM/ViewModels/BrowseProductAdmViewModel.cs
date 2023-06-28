@@ -2,7 +2,7 @@
 
 namespace Write_Erase.MVVM.ViewModels
 {
-    public class BrowseProductAdmViewModel : BindableBase
+    internal class BrowseProductAdmViewModel : BindableBase
     {
         #region Fields
         private readonly PageService _pageService;

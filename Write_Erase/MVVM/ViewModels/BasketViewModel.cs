@@ -2,7 +2,7 @@
 
 namespace Write_Erase.MVVM.ViewModels
 {
-    public class BasketViewModel : BindableBase
+    internal class BasketViewModel : BindableBase
     {
         #region Fields
         PageService _pageService;
@@ -43,6 +43,7 @@ namespace Write_Erase.MVVM.ViewModels
         public DelegateCommand SignOutCommand => new(() =>
         {
             Global.CurrentUser = null;
+            Global.ProductsBasket.Clear();
             _pageService.ChangePage(new SingInPage());
         });
 

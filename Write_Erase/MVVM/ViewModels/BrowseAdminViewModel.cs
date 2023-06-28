@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Write_Erase.MVVM.ViewModels
 {
-    public class BrowseAdminViewModel : BindableBase
+    internal class BrowseAdminViewModel : BindableBase
     {
         private readonly PageService _pageService;
         private readonly OrderService _orderService;

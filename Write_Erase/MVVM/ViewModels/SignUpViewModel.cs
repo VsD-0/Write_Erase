@@ -2,7 +2,7 @@
 
 namespace Write_Erase.MVVM.ViewModels
 {
-    public class SignUpViewModel : BindableBase
+    internal class SignUpViewModel : BindableBase
     {
         private readonly PageService _pageService;
         private readonly UserService _userService;
