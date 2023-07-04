@@ -17,6 +17,15 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <Button Panel.ZIndex="1"    
+                Grid.RowSpan="2"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Margin="20"
+                            Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryDarkButton}"
+                            Command="{Binding AddProductCommand}">
+            <materialDesign:PackIcon Kind="Add" Foreground="White" />
+        </Button>
 
         <Grid Grid.Row="0" Background=" #498c51">
             <Grid.ColumnDefinitions>
@@ -111,6 +120,150 @@
             </Menu>
         </Grid>
 
+        <materialDesign:DialogHost Panel.ZIndex="2"
+                                   Grid.RowSpan="2"
+                                               IsOpen="{Binding IsDialogAddProductOpen}"
+                                               Identifier="AddProduct">
+            <materialDesign:DialogHost.DialogContent>
+                <Grid Margin="20"
+                      Width="500">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                                           Padding="5"
+                                           HorizontalAlignment="Center"
+                                           Grid.ColumnSpan="2"
+                                           Text="Добавление товара"/>
+
+                    <TextBox Grid.Row="1"
+                                         Grid.Column="0"
+                                         Text="{Binding ProductArticle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                         materialDesign:HintAssist.Hint="Артикул"
+                                         MaxLength="6"
+                                         materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
+                                         Margin="0 0 5 5"/>
+                    <ComboBox Grid.Row="2"
+                                         Grid.Column="0"
+                                         SelectedItem="{Binding ProductSelectedName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         ItemsSource="{Binding Pnames}"
+                                         DisplayMemberPath="Name"
+                                         Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                         materialDesign:HintAssist.Hint="Наименование"
+                                         materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
+                                         Margin="0 0 5 5"/>
+                    <TextBox Grid.Row="3"
+                                         Grid.Column="0"
+                                         Text="{Binding ProductDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                         materialDesign:HintAssist.Hint="Описание"
+                                         MaxWidth="250"
+                                         MaxLength="300"
+                                         materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
+                                         Margin="0 0 5 5"/>
+                    <ComboBox Grid.Row="4"
+                                          Grid.Column="0"
+                                          SelectedItem="{Binding ProductSelectedCategories, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                          ItemsSource="{Binding Pcategories}"
+                                          DisplayMemberPath="Category"
+                                          materialDesign:HintAssist.Hint="Категория"
+                                          materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
+                                          Margin="0 0 5 5"/>
+                    <Grid Grid.Row="5"
+                                      Grid.Column="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding ProductImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             Grid.Column="0"
+                                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                             materialDesign:HintAssist.Hint="Изображение"
+                                             MaxLength="50"
+                                             materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
+                                             Margin="0 0 5 5"
+                                             IsReadOnly="True"/>
+                        <Button Style="{StaticResource MaterialDesignToolButton}"
+                                            Grid.Column="1"
+                                            Background="Transparent"
+                                            Command="{Binding ChoiceImageCommand}">
+                            <materialDesign:PackIcon Kind="Image"/>
+                        </Button>
+                    </Grid>
+                    <ComboBox Grid.Row="1"
+                                          Grid.Column="1"
+                                          SelectedItem="{Binding ProductSelectedManufacturer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                          materialDesign:HintAssist.Hint="Производитель"
+                                          ItemsSource="{Binding Pmanufacturers}"
+                                          DisplayMemberPath="Manufacturer"
+                                          materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
+                                          Margin="0 0 0 5"/>
+                    <ComboBox Grid.Row="2"
+                                          Grid.Column="1"
+                                          SelectedItem="{Binding ProductSelectedProvider, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                          ItemsSource="{Binding Pproviders}"
+                                          DisplayMemberPath="Provider"
+                                          materialDesign:HintAssist.Hint="Поставщик"
+                                          materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
+                                          Margin="0 0 0 5"/>
+                    <TextBox Grid.Row="3"
+                                         Grid.Column="1"
+                                         Text="{Binding ProductPrice, Converter={StaticResource StringToIntConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                         materialDesign:HintAssist.Hint="Стоимость"
+                                         materialDesign:TextFieldAssist.PrefixText="₽"
+                                         MaxLength="4"
+                                         materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
+                                         Margin="0 0 0 5"/>
+                    <TextBox Grid.Row="4"
+                                         Grid.Column="1"
+                                         Text="{Binding ProductDiscount, Converter={StaticResource StringToIntConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                         materialDesign:HintAssist.Hint="Скидка"
+                                         materialDesign:TextFieldAssist.PrefixText="%"
+                                         MaxLength="2"
+                                         materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
+                                         Margin="0 0 0 5"/>
+                    <TextBox Grid.Row="5"
+                                         Grid.Column="1"
+                                         Text="{Binding ProductCountInStock, Converter={StaticResource StringToIntConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                         materialDesign:HintAssist.Hint="Количество"
+                                         materialDesign:TextFieldAssist.PrefixText="шт."
+                                         MaxLength="4"
+                                         materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
+                                         Margin="0 0 0 5"/>
+                    <Button Grid.Row="6"
+                                        Grid.Column="0"
+                                        Content="Сохранить"
+                                        Command="{Binding SaveAddProductCommand}"
+                                        Margin="0 0 5 0"/>
+                    <Button Grid.Row="6"
+                                        Grid.Column="1"
+                                        Content="Отмена"
+                                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
+                </Grid>
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
         <materialDesign:DialogHost Panel.ZIndex="2"
                                    Grid.RowSpan="2"
                                    IsOpen="{Binding IsDialogEditOrderOpen}"

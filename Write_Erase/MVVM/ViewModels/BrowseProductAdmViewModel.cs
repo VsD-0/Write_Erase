@@ -1,4 +1,7 @@
-﻿using Write_Erase.Services;
+﻿using Microsoft.Win32;
+using System.Reflection;
+using Write_Erase.MVVM.Models.Data.Tables;
+using Write_Erase.Services;
 
 namespace Write_Erase.MVVM.ViewModels
 {
@@ -38,15 +41,41 @@ namespace Write_Erase.MVVM.ViewModels
         public ProductModel SelectedProduct { get; set; }
         public int? MaxRecords { get; set; } = 0;
         public int? FoundRecords { get; set; } = 0;
+
+        public bool IsDialogAddProductOpen { get; set; } = false;
+        public string ProductArticle { get; set; }
+        public Productname ProductSelectedName { get; set; }
+        public string ProductDescription { get; set; }
+        public Productcategory ProductSelectedCategories { get; set; }
+        public string ProductImage { get; set; }
+        public Productmanufacturer ProductSelectedManufacturer { get; set; }
+        public Productprovider ProductSelectedProvider { get; set; }
+        public string ProductPrice { get; set; }
+        public string ProductDiscount { get; set; }
+        public string ProductCountInStock { get; set; }
+
+        public ObservableCollection<Productmanufacturer> Pmanufacturers { get; set; }
+        public ObservableCollection<Productcategory> Pcategories { get; set; }
+        public ObservableCollection<Productprovider> Pproviders { get; set; }
+        public ObservableCollection<Productname> Pnames { get; set; }
         #endregion
 
         public BrowseProductAdmViewModel(PageService pageService, ProductService productService)
         {
             _pageService = pageService;
             _productService = productService;
+
+            Pmanufacturers = new(_productService.GetPmanufacturers());
+            Pcategories = new(_productService.GetPcategories());
+            Pproviders = new(_productService.GetProdivers());
+            Pnames = new(_productService.GetNames());
         }
 
         #region Command
+        public DelegateCommand AddProductCommand => new(() =>
+        {
+            IsDialogAddProductOpen = true;
+        });
         async void ChangeList()
         {
             List<ProductModel> actualProduct = await _productService.GetProducts();
@@ -105,6 +134,62 @@ namespace Write_Erase.MVVM.ViewModels
             EditDiscount = SelectedProduct.Discount;
             EditInStock = SelectedProduct.InStock;
             IsDialogEditOrderOpen = true;
+        });
+
+        public DelegateCommand SaveAddProductCommand => new(async () =>
+        {
+            if (!Products.Any(p => p.Article == ProductArticle))
+            {
+                Products.Insert(0, await _productService.AddProductAsync(new Product
+                {
+                    ParticleNumber = ProductArticle,
+                    Pcost = decimal.Parse(ProductPrice),
+                    Pdescription = ProductDescription,
+                    Pphoto = ProductImage == null ? "" : ProductImage,
+                    PnameId = ProductSelectedName.NameId,
+                    PcategoryId = ProductSelectedCategories.CategoryId,
+                    PmanufacturerId = ProductSelectedManufacturer.ManufacturerId,
+                    PproviderId = ProductSelectedProvider.ProviderId,
+                    PdiscountAmount = sbyte.Parse(ProductDiscount),
+                    PquantityInStock = int.Parse(ProductCountInStock),
+                    Pstatus = 0,
+                    PunitId = 1
+                }));
+            }
+            IsDialogAddProductOpen = false;
+        }, bool () =>
+        {
+            return !string.IsNullOrWhiteSpace(ProductArticle)
+            && ProductSelectedName != null
+            && !string.IsNullOrWhiteSpace(ProductDescription)
+            && ProductSelectedCategories != null
+            && ProductSelectedManufacturer != null
+            && ProductSelectedProvider != null
+            && !string.IsNullOrWhiteSpace(ProductPrice)
+            && !string.IsNullOrWhiteSpace(ProductDiscount)
+            && !string.IsNullOrWhiteSpace(ProductCountInStock);
+        });
+
+        public DelegateCommand ChoiceImageCommand => new(() =>
+        {
+            OpenFileDialog openFileDialog = new()
+            {
+                Title = "Выберите изображение",
+                Filter = "Изображения (*.jpg, *jpeg, *.png)|*.jpg;*.jpeg;*.png",
+                Multiselect = false
+            };
+
+            string targetDirectory = Path.Combine("D:\\Projects\\VS\\repos\\Write_Erase\\Write_Erase\\Resources\\Image");
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                ProductImage = ProductArticle + ".png";
+                if (!File.Exists(Path.Combine(targetDirectory, ProductArticle)))
+                {
+                    File.Copy(openFileDialog.FileName, Path.Combine(targetDirectory, ProductArticle + ".png"));
+                }
+            }
+            
         });
 
         public DelegateCommand SaveProductCommand => new(async () =>

@@ -9,4 +9,5 @@
     <conv:IntegerToBrushConverter x:Key="IntegerToBrushConverter"/>
     <conv:IntegerToTextDecorationConverter x:Key="IntegerToTextDecorationConverter"/>
     <conv:AdminStringToBrushConverter x:Key="AdminStringToBrushConverter"/>
+    <conv:StringToIntConverter x:Key="StringToIntConverter"/>
 </ResourceDictionary>

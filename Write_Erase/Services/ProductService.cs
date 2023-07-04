@@ -1,10 +1,13 @@
-﻿using System.Threading;
+﻿using Org.BouncyCastle.Crypto;
+using System.Threading;
+using AutoMapper;
 using Write_Erase.MVVM.Models.Data.Tables;
 
 namespace Write_Erase.Services
 {
     public class ProductService
     {
+        private readonly IMapper _mapper;
         private readonly StoreContext _context;
         static List<Product> _product;
 
@@ -68,9 +71,34 @@ namespace Write_Erase.Services
             return order;
         }
 
+        public List<Productname> GetNames() => _context.Productnames.ToList();
+        public List<Productprovider> GetProdivers() => _context.Productproviders.ToList();
+        public List<Productcategory> GetPcategories() => _context.Productcategories.ToList();
+        public List<Productmanufacturer> GetPmanufacturers() => _context.Productmanufacturers.ToList();
+
         public List<Order> GetOrders()
         {
             return _context.Orders.ToList();
+        }
+        public async Task<ProductModel> AddProductAsync(Product product)
+        {
+            await _context.Products.AddAsync(product);
+            await _context.SaveChangesAsync();
+            var dbProduct = new ProductModel
+            {
+                Article = product.ParticleNumber,
+                Image = product.Pphoto == string.Empty ? "picture.png" : product.Pphoto,
+                Title = product.Pname.Name,
+                Description = product.Pdescription,
+                Manufacturer = product.Pmanufacturer.Manufacturer,
+                Price = product.Pcost,
+                Discount = (int)product.PdiscountAmount,
+                Unit = product.Punit.Unit,
+                InStock = product.PquantityInStock,
+                Status = product.Pstatus,
+            };
+
+            return dbProduct;
         }
         public async Task SaveChangesAsync(ProductModel pr)
         {
